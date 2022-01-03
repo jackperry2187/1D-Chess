@@ -87,13 +87,18 @@ const App = () => {
       sleep(1000);
       let translatedBoard = [];
       let localWinStatus = currentWinStatus;
+      let hasRook = false;
       for(let x of currentBoard) {
+        if(x.piece === "rook") hasRook = true;
         if(x.piece === null) translatedBoard.push("");
         else if(x.piece === "knight") translatedBoard.push(`${x.color[0].toUpperCase()}${x.piece[1].toUpperCase()}`);
         else translatedBoard.push(`${x.color[0].toUpperCase()}${x.piece[0].toUpperCase()}`);
       }
       console.log(translatedBoard);
-      if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "WR", "", "", "", "WN", "WK"])) {
+      if(!hasRook) {
+        localWinStatus = "Drawn";
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "WR", "", "", "", "WN", "WK"])) {
         localWinStatus = "Drawn";
       }
       else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "WR", "", "WN", "WK"])) {
@@ -224,6 +229,39 @@ const App = () => {
       }
       else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "", "WR", "", "", "WK", ""])) {
         localWinStatus = "Won";
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "BN", "WN", "", "WR", "WK"])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[1];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[1] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "BN", "WN", "WR", "WK", ""])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "", "WN", "WK", "", ""])) {
+        localWinStatus = "Lost";
       }
       else {
         console.log("did not make a move!");
