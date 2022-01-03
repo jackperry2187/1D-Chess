@@ -11,6 +11,16 @@ const App = () => {
   const [currentBoard, setCurrentBoard] = useState([]);
   const [tileBeingDragged, setTileBeingDragged] = useState(null);
   const [tileBeingReplaced, setTileBeingReplaced] = useState(null);
+  const [currentTurn, setCurrentTurn] = useState(null);
+  const [currentWinStatus, setCurrentWinStatus] = useState("Winning");
+
+  const sleep = (ms) => {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < ms);
+  }
 
   const createBoard = () => {
     let initialArray = [];
@@ -64,11 +74,137 @@ const App = () => {
     }
     initialArray.push(tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8);
     setCurrentBoard(initialArray);
+    setCurrentTurn("white");
+    setCurrentWinStatus("Winning");
   }
 
   useEffect(() => {
     createBoard();
   }, []);
+
+  useEffect(() => {
+    if(currentTurn === "black") {
+      sleep(1000);
+      let translatedBoard = [];
+      let localWinStatus = currentWinStatus;
+      for(let x of currentBoard) {
+        if(x.piece === null) translatedBoard.push("");
+        else if(x.piece === "knight") translatedBoard.push(`${x.color[0].toUpperCase()}${x.piece[1].toUpperCase()}`);
+        else translatedBoard.push(`${x.color[0].toUpperCase()}${x.piece[0].toUpperCase()}`);
+      }
+      console.log(translatedBoard);
+      if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "WR", "", "", "", "WN", "WK"])) {
+        localWinStatus = "Drawn";
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "WR", "", "WN", "WK"])) {
+        localWinStatus = "Drawn";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[4];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[4] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "WR", "", "", "WN", "WK"])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[3];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[3] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "WN", "WR", "", "WK"])) {
+        localWinStatus = "Winning";
+        let oldTile = currentBoard[1];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[3];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[1] = oldTile;
+        newBoard[3] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "", "BR", "WN", "", "", "WK"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[4];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[4] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "WN", "BN", "", "WR", "", "WK"])) {
+        localWinStatus = "Winning";
+        let oldTile = currentBoard[0];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[1];
+        replacedTile.piece = "king";
+        replacedTile.color = "black";
+        replacedTile.src = blackking;
+        let newBoard = currentBoard;
+        newBoard[0] = oldTile;
+        newBoard[1] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "BN", "WR", "", "", "WK"])) {
+        localWinStatus = "Winning";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "", "", "WR", "", "WK"])) {
+        localWinStatus = "Drawn";
+      }
+      else {
+        console.log("did not make a move!");
+      }
+
+      if(localWinStatus !== "Drawn" && localWinStatus !== "Lost") {
+        setCurrentTurn("white");     
+        setCurrentWinStatus(localWinStatus);
+        setCurrentBoard([...currentBoard]);
+      }
+      else {
+        setCurrentTurn(null);
+        setCurrentWinStatus(localWinStatus);
+        setCurrentBoard([...currentBoard]);
+      }
+    }
+  }, [currentTurn, currentBoard, currentWinStatus]);
 
   const dragStart = (e) => {
     setTileBeingDragged(e.target);
@@ -85,32 +221,65 @@ const App = () => {
     let replacedTile = currentBoard[replacedId];
     let draggedTile = currentBoard[draggedId];
     let validMoves = [];
-    
-    if(draggedTile.piece === "king") {
-      if(draggedId - 1 > -1 && currentBoard[draggedId - 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 1);
-      if(draggedId + 1 < 8 && currentBoard[draggedId + 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId + 1);
+    let inCheck = false;
+    let board = currentBoard;
+    let kingId = -1;
+    let knightId = -1;
+    for(let x in board) {
+      if(board[x].piece === "king" && board[x].color === "white") kingId = parseInt(x);
+      if(board[x].piece === "knight" && board[x].color === "black") knightId = parseInt(x);
     }
-    else if(draggedTile.piece === "knight") {
-      if(draggedId - 2 > -1 && currentBoard[draggedId - 2].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 2);
-      if(draggedId + 2 < 8 && currentBoard[draggedId + 2].color !== currentBoard[draggedId].color) validMoves.push(draggedId + 2);
-    }
-    else if(draggedTile.piece === "rook") {
-      let x = draggedId;
-      let y = draggedId;
-      
-      while(x-1 > -1 && currentBoard[x-1].color === null) {
-        validMoves.push(x-1);
-        x = x - 1;
+    if(kingId + 2 === knightId || kingId - 2 === knightId) inCheck = true;
+    if(!inCheck) {
+      if(draggedTile.piece === "king") {
+        if(draggedId - 1 > -1 && currentBoard[draggedId - 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 1);
+        if(draggedId + 1 < 8 && currentBoard[draggedId + 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId + 1);
       }
-      if(x-1 > -1 && currentBoard[x-1].color !== currentBoard[draggedId].color) validMoves.push(x-1);
-      while(y+1 < 8 && currentBoard[y+1].color === null) {
-        validMoves.push(y+1);
-        y = y + 1;
+      else if(draggedTile.piece === "knight") {
+        if(draggedId - 2 > -1 && currentBoard[draggedId - 2].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 2);
+        if(draggedId + 2 < 8 && currentBoard[draggedId + 2].color !== currentBoard[draggedId].color) validMoves.push(draggedId + 2);
       }
-      if(y+1 < 8 && currentBoard[y+1].color !== currentBoard[draggedId].color) validMoves.push(y+1);
+      else if(draggedTile.piece === "rook") {
+        let x = draggedId;
+        let y = draggedId;
+        
+        while(x-1 > -1 && currentBoard[x-1].color === null) {
+          validMoves.push(x-1);
+          x = x - 1;
+        }
+        if(x-1 > -1 && currentBoard[x-1].color !== currentBoard[draggedId].color) validMoves.push(x-1);
+        while(y+1 < 8 && currentBoard[y+1].color === null) {
+          validMoves.push(y+1);
+          y = y + 1;
+        }
+        if(y+1 < 8 && currentBoard[y+1].color !== currentBoard[draggedId].color) validMoves.push(y+1);
+      }
     }
+    else if(inCheck) {
+      if(draggedTile.piece === "king") {
+        if(draggedId - 1 > -1 && currentBoard[draggedId - 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 1);
+        if(draggedId + 1 < 8 && currentBoard[draggedId + 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId + 1);
+      }
+      else if(draggedTile.piece === "knight") {
+        if(draggedId - 2 > -1 && currentBoard[draggedId - 2].color !== currentBoard[draggedId].color && currentBoard[draggedId - 2].piece === "knight") validMoves.push(draggedId - 2);
+        if(draggedId + 2 < 8 && currentBoard[draggedId + 2].color !== currentBoard[draggedId].color && currentBoard[draggedId + 2].piece === "knight") validMoves.push(draggedId + 2);
+      }
+      else if(draggedTile.piece === "rook") {
+        let x = draggedId;
+        let y = draggedId;
+        
+        while(x-1 > -1 && currentBoard[x-1].color === null) {
+          x = x - 1;
+        }
+        if(x-1 > -1 && currentBoard[x-1].color !== currentBoard[draggedId].color && currentBoard[x-1].piece === "knight") validMoves.push(x-1);
+        while(y+1 < 8 && currentBoard[y+1].color === null) {
+          y = y + 1;
+        }
+        if(y+1 < 8 && currentBoard[y+1].color !== currentBoard[draggedId].color && currentBoard[y+1].piece === "knight") validMoves.push(y+1);
+      }
+    }
+
     if(validMoves.includes(replacedId)) {
-      console.log("Valid move!");
       let newColor = draggedTile.color;
       let newPiece = draggedTile.piece;
       let newSrc  = draggedTile.src;
@@ -124,18 +293,20 @@ const App = () => {
       newBoard[draggedId] = draggedTile;
       newBoard[replacedId] = replacedTile;
       setCurrentBoard(newBoard);
+      setCurrentTurn("black");
       setCurrentBoard([...currentBoard]);
-    }
-    else {
-      console.log("Invalid move!");
     }
   }
 
   return (
     <div className='app'>
+      <div>
+        {currentWinStatus}
+        <button onClick={createBoard}>Reset</button>
+      </div>
       <div className='game'>
         {currentBoard.map((tile, index) => {
-          if(tile.color === "white") {
+          if(tile.color === "white" && currentTurn === "white") {
             return <img
             key={index}
             style={{backgroundColor: tile.tileColor}}
@@ -156,6 +327,7 @@ const App = () => {
             style={{backgroundColor: tile.tileColor}}
             alt={`${tile.color} ${tile.piece} ${index}`}
             data-id={index}
+            draggable={false}
             onDragOver={(e) => e.preventDefault()}
             onDragEnter={(e) => e.preventDefault()}
             onDragLeave={(e) => e.preventDefault()}
