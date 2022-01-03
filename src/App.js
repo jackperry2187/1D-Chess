@@ -189,11 +189,47 @@ const App = () => {
       else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "", "", "WR", "", "WK"])) {
         localWinStatus = "Drawn";
       }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "WR", "", "", "", "WK"])) {
+        localWinStatus = "Drawn";
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "", "WR", "BN", "WK", ""])) {
+        localWinStatus = "Winning";
+        let oldTile = currentBoard[5];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[3];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[5] = oldTile;
+        newBoard[3] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["WN", "BK", "", "BN", "WR", "", "WK", ""])) {
+        localWinStatus = "Winning";
+        let oldTile = currentBoard[1];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[0];
+        replacedTile.piece = "king";
+        replacedTile.color = "black";
+        replacedTile.src = blackking;
+        let newBoard = currentBoard;
+        newBoard[1] = oldTile;
+        newBoard[0] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "", "WR", "", "", "WK", ""])) {
+        localWinStatus = "Won";
+      }
       else {
         console.log("did not make a move!");
       }
 
-      if(localWinStatus !== "Drawn" && localWinStatus !== "Lost") {
+      if(localWinStatus !== "Drawn" && localWinStatus !== "Lost" && localWinStatus !== "Won") {
         setCurrentTurn("white");     
         setCurrentWinStatus(localWinStatus);
         setCurrentBoard([...currentBoard]);
@@ -232,8 +268,8 @@ const App = () => {
     if(kingId + 2 === knightId || kingId - 2 === knightId) inCheck = true;
     if(!inCheck) {
       if(draggedTile.piece === "king") {
-        if(draggedId - 1 > -1 && currentBoard[draggedId - 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 1);
-        if(draggedId + 1 < 8 && currentBoard[draggedId + 1].color !== currentBoard[draggedId].color) validMoves.push(draggedId + 1);
+        if(draggedId - 1 > -1 && currentBoard[draggedId - 1].color !== currentBoard[draggedId].color && draggedId - 1 !== knightId - 2 && draggedId - 1 !== knightId + 2) validMoves.push(draggedId - 1);
+        if(draggedId + 1 < 8 && currentBoard[draggedId + 1].color !== currentBoard[draggedId].color && draggedId + 1 !== knightId - 2 && draggedId + 1 !== knightId + 2) validMoves.push(draggedId + 1);
       }
       else if(draggedTile.piece === "knight") {
         if(draggedId - 2 > -1 && currentBoard[draggedId - 2].color !== currentBoard[draggedId].color) validMoves.push(draggedId - 2);
