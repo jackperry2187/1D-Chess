@@ -10,6 +10,7 @@ This file start everything for you, meaning it will:
 -Open your default broswer to http://localhost:3000  
 -Run `npm run start`  
 ## Skills Used
+- Node
 - REACT
   - useEffect
   - useState
