@@ -98,9 +98,6 @@ const App = () => {
       if(!hasRook) {
         localWinStatus = "Drawn";
       }
-      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "WR", "", "", "", "WN", "WK"])) {
-        localWinStatus = "Drawn";
-      }
       else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "WR", "", "WN", "WK"])) {
         localWinStatus = "Drawn";
         let oldTile = currentBoard[2];
@@ -191,10 +188,10 @@ const App = () => {
         newBoard[5] = replacedTile;
         setCurrentBoard(newBoard);
       }
-      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "", "", "WR", "", "WK"])) {
-        localWinStatus = "Drawn";
-      }
-      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "WR", "", "", "", "WK"])) {
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "", "", "WR", "", "WK"])
+        || JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "WR", "", "", "", "WK"])
+        || JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "WR", "", "", "", "", "WK"])
+        || JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "WR", "", "", "", "WN", "WK"])) {
         localWinStatus = "Drawn";
       }
       else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "", "WR", "BN", "WK", ""])) {
@@ -245,7 +242,8 @@ const App = () => {
         newBoard[1] = replacedTile;
         setCurrentBoard(newBoard);
       }
-      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "BN", "WN", "WR", "WK", ""])) {
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "BN", "WN", "WR", "WK", ""])
+        || JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BR", "", "BN", "WN", "WR", "", "WK"])) {
         localWinStatus = "Losing";
         let oldTile = currentBoard[3];
         oldTile.color = null;
@@ -262,6 +260,263 @@ const App = () => {
       }
       else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "", "WN", "WK", "", ""])) {
         localWinStatus = "Lost";
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "BR", "BN", "WN", "WR", "WK", ""]) 
+        || JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "", "BN", "WN", "WR", "", "WK"])
+      ) {
+        localWinStatus = "Drawn";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "BN", "", "WR", "WK", ""])) {
+        localWinStatus = "Drawn";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["", "BK", "WN", "BN", "", "", "WR", "WK"])) {
+        localWinStatus = "Drawing";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BR", "", "", "WN", "BN", "WK", ""])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[5];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[7];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[5] = oldTile;
+        newBoard[7] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BR", "", "", "WN", "", "", "WK"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[1];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[4];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[1] = oldTile;
+        newBoard[4] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BR", "WN", "", "", "", "WK", "BN"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[1];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[2];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[1] = oldTile;
+        newBoard[2] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BR", "WN", "BN", "", "", "WR", "WK"])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[1];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[2];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[1] = oldTile;
+        newBoard[2] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "BN", "", "WR", "", "WK"])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "", "", "BN", "WK", ""])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[5];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[7];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[5] = oldTile;
+        newBoard[7] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "BN", "WR", "", "", "WK"])) {
+        localWinStatus = "Losing";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[1];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[1] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "", "BR", "WR", "", "", "", "WK"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[3];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[3] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "WR", "", "", "", "WK"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[3];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[3] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "WR", "", "", "WK"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[4];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[4] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "", "WR", "", "WK"])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "", "", "WR", "WK"])) {
+        localWinStatus = "Drawn";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[6];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[6] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["BK", "BN", "BR", "", "WR", "", "WK", ""])) {
+        localWinStatus = "Lost";
+        let oldTile = currentBoard[2];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[4];
+        replacedTile.piece = "rook";
+        replacedTile.color = "black";
+        replacedTile.src = blackrook;
+        let newBoard = currentBoard;
+        newBoard[2] = oldTile;
+        newBoard[4] = replacedTile;
+        setCurrentBoard(newBoard);
+      }
+      else if(JSON.stringify(translatedBoard) === JSON.stringify(["WN", "BK", "", "BN", "", "WR", "", "WK"])) {
+        localWinStatus = "Drawn";
+        let oldTile = currentBoard[3];
+        oldTile.color = null;
+        oldTile.piece = null;
+        oldTile.src = blank;
+        let replacedTile = currentBoard[5];
+        replacedTile.piece = "knight";
+        replacedTile.color = "black";
+        replacedTile.src = blackknight;
+        let newBoard = currentBoard;
+        newBoard[3] = oldTile;
+        newBoard[5] = replacedTile;
+        setCurrentBoard(newBoard);
       }
       else {
         console.log("did not make a move!");
@@ -373,14 +628,10 @@ const App = () => {
   }
 
   return (
-    <div className='app'>
-      <div>
-        {currentWinStatus}
-        <button onClick={createBoard}>Reset</button>
-      </div>
-      <div className='game'>
+    <div className='app text-center'>
+      <div className='game mx-auto'> 
         {currentBoard.map((tile, index) => {
-          if(tile.color === "white" && currentTurn === "white") {
+          if(index === 0) {
             return <img
             key={index}
             style={{backgroundColor: tile.tileColor}}
@@ -394,7 +645,25 @@ const App = () => {
             onDrop={dragDrop}
             onDragEnd={dragEnd}
             src={tile.src}
-          />
+            className="border-dark border-start border-end border-top"
+            />
+          }
+          else if(tile.color === "white" && currentTurn === "white") {
+            return <img
+            key={index}
+            style={{backgroundColor: tile.tileColor}}
+            alt={`${tile.color} ${tile.piece} ${index}`}
+            data-id={index}
+            draggable={true}
+            onDragStart={dragStart}
+            onDragOver={(e) => e.preventDefault()}
+            onDragEnter={(e) => e.preventDefault()}
+            onDragLeave={(e) => e.preventDefault()}
+            onDrop={dragDrop}
+            onDragEnd={dragEnd}
+            src={tile.src}
+            className="border-dark border-start border-end"
+            />
           }
           return <img
             key={index}
@@ -408,8 +677,23 @@ const App = () => {
             onDrop={dragDrop}
             onDragEnd={dragEnd}
             src={tile.src}
-          />
+            className="border-dark border-start border-end"
+            />
         })}
+      </div>
+      <div class="row text-center pt-3">
+        <div class="col">
+          <h6 className='text-center'>Current Game Status: 
+          {(() => {
+            if(currentWinStatus === "Drawn" || currentWinStatus === "Drawing") return (<div className='text-warning'>Drawn</div>)
+            else if(currentWinStatus === "Losing" || currentWinStatus === "Lost") return (<div className='text-danger'>{currentWinStatus}</div>)
+            else if(currentWinStatus === "Winning" || currentWinStatus === "Won") return (<div className='text-success'>{currentWinStatus}</div>) 
+          })()}
+          </h6>
+        </div>
+        <div class="col">
+          <button onClick={createBoard} className='btn btn-primary'>Reset Board</button>
+        </div>
       </div>
     </div>
   );

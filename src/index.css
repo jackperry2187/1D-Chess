@@ -1,20 +1,19 @@
-.app {
-  display: flex;
-  padding: 30px;
-  color: red;
-}
-
 .game {
   height: 560px;
   width: 70px;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  border: 1px solid black;
 }
 
 .game img {
   height: 70px;
+  width: 70px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.game h1 {
   width: 70px;
   padding: 0px;
   margin: 0px;
