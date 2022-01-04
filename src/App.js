@@ -94,7 +94,6 @@ const App = () => {
         else if(x.piece === "knight") translatedBoard.push(`${x.color[0].toUpperCase()}${x.piece[1].toUpperCase()}`);
         else translatedBoard.push(`${x.color[0].toUpperCase()}${x.piece[0].toUpperCase()}`);
       }
-      console.log(translatedBoard);
       if(!hasRook) {
         localWinStatus = "Drawn";
       }
@@ -518,9 +517,6 @@ const App = () => {
         newBoard[5] = replacedTile;
         setCurrentBoard(newBoard);
       }
-      else {
-        console.log("did not make a move!");
-      }
 
       if(localWinStatus !== "Drawn" && localWinStatus !== "Lost" && localWinStatus !== "Won") {
         setCurrentTurn("white");     
@@ -681,8 +677,8 @@ const App = () => {
             />
         })}
       </div>
-      <div class="row text-center pt-3">
-        <div class="col">
+      <div className="row text-center pt-3">
+        <div className="col">
           <h6 className='text-center'>Current Game Status: 
           {(() => {
             if(currentWinStatus === "Drawn" || currentWinStatus === "Drawing") return (<div className='text-warning'>Drawn</div>)
@@ -691,7 +687,7 @@ const App = () => {
           })()}
           </h6>
         </div>
-        <div class="col">
+        <div className="col">
           <button onClick={createBoard} className='btn btn-primary'>Reset Board</button>
         </div>
       </div>
