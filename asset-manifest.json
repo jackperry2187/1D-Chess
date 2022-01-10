@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/1D-Chess/static/css/main.6b2434d0.css",
+    "main.js": "/1D-Chess/static/js/main.660858ea.js",
+    "static/media/black_king.png": "/1D-Chess/static/media/black_king.ec7985401744cffc5540.png",
+    "static/media/white_king.png": "/1D-Chess/static/media/white_king.1327b95de72a57aeaacf.png",
+    "static/media/white_knight.png": "/1D-Chess/static/media/white_knight.e26ad0eca37c44d27cdf.png",
+    "static/media/black_knight.png": "/1D-Chess/static/media/black_knight.b9f0e80ffbdcfcecb5fc.png",
+    "index.html": "/1D-Chess/index.html",
+    "main.6b2434d0.css.map": "/1D-Chess/static/css/main.6b2434d0.css.map",
+    "main.660858ea.js.map": "/1D-Chess/static/js/main.660858ea.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6b2434d0.css",
+    "static/js/main.660858ea.js"
+  ]
+}
